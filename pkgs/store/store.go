@@ -13,12 +13,11 @@ type Store struct {
 	db *gorm.DB
 }
 
+const dnsStore = "host=postgres port=5432 user=dbo password=dbo dbname=camera sslmode=disable"
+
 // NewStore ...
 func NewStore() (*Store, error) {
-	db, err := gorm.Open(postgres.New(postgres.Config{
-		DSN:                  "user=postgres password=1234 dbname=camera host=localhost port=5432 sslmode=disable",
-		PreferSimpleProtocol: true, // disables implicit prepared statement usage
-	}), &gorm.Config{})
+	db, err := gorm.Open(postgres.New(postgres.Config{DSN: dnsStore}), &gorm.Config{})
 
 	if err != nil {
 		log.Error(err)
