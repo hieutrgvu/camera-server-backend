@@ -24,3 +24,16 @@ func postEvents(ctrl controller.IController) gin.HandlerFunc {
 		c.AbortWithStatus(http.StatusOK)
 	}
 }
+
+// getEvents ...
+func getEvents(ctrl controller.IController) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		response, err := ctrl.GetEvents()
+		if err != nil {
+			log.Error("getEvents: err call controller = ", err)
+			return
+		}
+
+		c.AbortWithStatusJSON(http.StatusOK, response)
+	}
+}

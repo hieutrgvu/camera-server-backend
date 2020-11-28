@@ -14,7 +14,7 @@ func NewServer(ctrl controller.IController) *gin.Engine {
 	v1 := e.Group("/v1")
 
 	v1.POST(PostEventsRoute, postEvents(ctrl))
-	v1.GET(GetEventsRoute, ping())
+	v1.GET(GetEventsRoute, getEvents(ctrl))
 
 	return e
 }
