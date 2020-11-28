@@ -26,7 +26,7 @@ func NewStore() (*Store, error) {
 	}
 
 	s := Store{db: db}
-
+	s.db.AutoMigrate(&model.Event{})
 	return &s, nil
 }
 

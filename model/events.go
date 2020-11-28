@@ -2,6 +2,7 @@ package model
 
 // Event ...
 type Event struct {
+	ID         uint   `gorm:"primaryKey"`
 	QueryImage string `gorm:"Column:query_image"`
 	Timestamp  string `gorm:"Column:time_stamp"`
 	CameraID   string `gorm:"Column:camera_id"`
