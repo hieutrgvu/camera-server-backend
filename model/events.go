@@ -2,10 +2,10 @@ package model
 
 // Event ...
 type Event struct {
-	QueryImage string   `json:"query_image" binding:"required"`
-	Timestamp  string   `json:"timestamp" binding:"required"`
-	CameraID   string   `json:"camera_id" binding:"required"`
-	VectorIds  []string `json:"vector_ids" binding:"required"`
+	QueryImage string `gorm:"Column:query_image"`
+	Timestamp  string `gorm:"Column:time_stamp"`
+	CameraID   string `gorm:"Column:camera_id"`
+	VectorIDs  string `gorm:"Column:vector_ids"`
 }
 
 // ImageInfo ...
