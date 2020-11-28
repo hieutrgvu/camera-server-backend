@@ -11,14 +11,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type event struct {
+	QueryImage string   `json:"query_image" binding:"required"`
+	Timestamp  string   `json:"timestamp" binding:"required"`
+	CameraID   string   `json:"camera_id" binding:"required"`
+	VectorIDs  []string `json:"vector_ids" binding:"required"`
+}
+
 func postEvents(ctrl controller.IController) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var body struct {
-			QueryImage string   `json:"query_image" binding:"required"`
-			Timestamp  string   `json:"timestamp" binding:"required"`
-			CameraID   string   `json:"camera_id" binding:"required"`
-			VectorIDs  []string `json:"vector_ids" binding:"required"`
-		}
+		var body event
 
 		if err := c.ShouldBind(&body); err != nil {
 			log.Error(err)
@@ -44,10 +46,20 @@ func postEvents(ctrl controller.IController) gin.HandlerFunc {
 // getEvents ...
 func getEvents(ctrl controller.IController) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		response, err := ctrl.GetEvents()
+		events, err := ctrl.GetEvents()
 		if err != nil {
 			log.Error("getEvents: err call controller = ", err)
 			return
+		}
+
+		response := make([]event, 0, len(events))
+		for _, e := range events {
+			response = append(response, event{
+				QueryImage: e.QueryImage,
+				Timestamp:  e.Timestamp,
+				CameraID:   e.CameraID,
+				VectorIDs:  strings.Split(e.VectorIDs, ","),
+			})
 		}
 
 		c.AbortWithStatusJSON(http.StatusOK, response)
