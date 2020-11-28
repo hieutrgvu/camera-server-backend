@@ -29,3 +29,10 @@ func (c *Controller) SaveEvents(events []*model.Event) error {
 	log.Info("Save Events Done")
 	return nil
 }
+
+// GetEvents ...
+func (c *Controller) GetEvents() ([]*model.Event, error) {
+	response := storageEvents
+	log.Info("Load Events Done")
+	return response, nil
+}
