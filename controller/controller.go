@@ -26,13 +26,8 @@ const (
 	eventImageDir = "./images"
 )
 
-var (
-	storageEvents = make([]model.Event, 0, 1000)
-)
-
 // SaveEvents ...
 func (c *Controller) SaveEvents(events []model.Event) error {
-	storageEvents = append(storageEvents, events...)
 	c.store.InsertEvents(events)
 	log.Info("Save Events Done")
 	return nil
@@ -40,7 +35,6 @@ func (c *Controller) SaveEvents(events []model.Event) error {
 
 // GetEvents ...
 func (c *Controller) GetEvents() ([]model.Event, error) {
-	response := storageEvents
 	response, err := c.store.GetAllEvents()
 	if err != nil {
 		log.Error("Cannot events from database")
