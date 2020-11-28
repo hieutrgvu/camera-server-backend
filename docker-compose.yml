@@ -1,0 +1,21 @@
+version: '3.2'
+services:
+  app:
+    image: golang:1.13
+    working_dir: /go/src/camera-server-backend
+    volumes:
+      - ./:/go/src/camera-server-backend
+    depends_on:
+      - db
+    command: bash -c "./build/wait-for-it.sh db:5432 -- go run app/server/main.go"
+    ports:
+      - "8080:8080"
+  db:
+    image: postgres:10-alpine
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=dbo
+      - POSTGRES_PASSWORD=dbo
+      - POSTGRES_DB=camera
+    ports:
+      - "5432:5432"
