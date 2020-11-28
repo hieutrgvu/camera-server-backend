@@ -3,20 +3,23 @@ package controller
 import (
 	"bufio"
 	"camera-server-backend/model"
+	"camera-server-backend/pkgs/store"
 	"encoding/base64"
 	"fmt"
-	log "github.com/sirupsen/logrus"
 	"io/ioutil"
 	"os"
+
+	log "github.com/sirupsen/logrus"
 )
 
 // Controller ...
 type Controller struct {
+	store *store.Store
 }
 
 // NewController ...
-func NewController() *Controller {
-	return &Controller{}
+func NewController(s *store.Store) *Controller {
+	return &Controller{store: s}
 }
 
 const (
@@ -24,24 +27,30 @@ const (
 )
 
 var (
-	storageEvents = make([]*model.Event, 0, 1000)
+	storageEvents = make([]model.Event, 0, 1000)
 )
 
 // SaveEvents ...
-func (c *Controller) SaveEvents(events []*model.Event) error {
+func (c *Controller) SaveEvents(events []model.Event) error {
 	storageEvents = append(storageEvents, events...)
+	c.store.InsertEvents(events)
 	log.Info("Save Events Done")
 	return nil
 }
 
 // GetEvents ...
-func (c *Controller) GetEvents() ([]*model.Event, error) {
+func (c *Controller) GetEvents() ([]model.Event, error) {
 	response := storageEvents
+	response, err := c.store.GetAllEvents()
+	if err != nil {
+		log.Error("Cannot events from database")
+		return nil, err
+	}
 	log.Info("Load Events Done")
 	return response, nil
 }
 
-// GetEvents ...
+// GetImages ...
 func (c *Controller) GetImages(vectorIDs []string) ([]*model.ImageInfo, error) {
 	if len(vectorIDs) == 0 {
 		return nil, fmt.Errorf("Not found")

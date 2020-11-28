@@ -2,11 +2,12 @@ package handler
 
 import (
 	"camera-server-backend/controller"
+
 	"github.com/gin-gonic/gin"
 )
 
-// NewServer ...
-func NewServer(ctrl controller.IController) *gin.Engine {
+// NewHandler ...
+func NewHandler(ctrl controller.IController) *gin.Engine {
 	e := gin.Default()
 
 	e.GET("/ping", ping())

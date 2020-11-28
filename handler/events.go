@@ -27,7 +27,7 @@ func postEvents(ctrl controller.IController) gin.HandlerFunc {
 
 		log.Infof("Event from camera %s: %v\n", body.CameraID, body.VectorIDs)
 
-		ctrl.SaveEvents([]*model.Event{
+		ctrl.SaveEvents([]model.Event{
 			{
 				QueryImage: body.QueryImage,
 				Timestamp:  body.Timestamp,
