@@ -2,6 +2,7 @@ package handler
 
 import "github.com/gin-gonic/gin"
 
+// NewServer ...
 func NewServer() *gin.Engine {
 	e := gin.Default()
 
