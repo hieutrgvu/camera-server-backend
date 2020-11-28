@@ -4,7 +4,10 @@ import (
 	"camera-server-backend/controller"
 	"camera-server-backend/handler"
 	"camera-server-backend/pkgs/store"
+	"fmt"
 )
+
+const serverPort = 8080
 
 func main() {
 	s, err := store.NewStore()
@@ -14,5 +17,5 @@ func main() {
 
 	c := controller.NewController(s)
 	h := handler.NewHandler(c)
-	h.Run()
+	h.Run(fmt.Sprintf(":%d", serverPort))
 }
