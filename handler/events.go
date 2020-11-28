@@ -41,8 +41,9 @@ func getEvents(ctrl controller.IController) gin.HandlerFunc {
 // getEvents ...
 func getImages(ctrl controller.IController) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		vectorID := c.Param("id")
-		response, err := ctrl.GetImages(vectorID)
+		vectorIDs := c.QueryArray("id")
+		log.Info("image id = ", vectorIDs)
+		response, err := ctrl.GetImages(vectorIDs)
 		if err != nil {
 			log.Error("getEvents: err call controller = ", err)
 			return

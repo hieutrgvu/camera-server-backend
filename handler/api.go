@@ -9,5 +9,5 @@ const (
 	GetEventsRoute = "/events"
 
 	// GetImagesRoute ...
-	GetImagesRoute = "/images/:id"
+	GetImagesRoute = "/images"
 )
