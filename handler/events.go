@@ -12,15 +12,15 @@ import (
 
 func postEvents(ctrl controller.IController) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var payload model.Event
-		if err := c.ShouldBind(&payload); err != nil {
+		var body model.Event
+		if err := c.ShouldBind(&body); err != nil {
 			c.AbortWithError(http.StatusBadRequest, err)
 			return
 		}
 
-		log.Infof("Event recevied: %+v\n", payload)
+		log.Infof("Event from camera %s: %v\n", body.CameraID, body.VectorIds)
 
-		ctrl.SaveEvents([]*model.Event{&payload})
+		ctrl.SaveEvents([]*model.Event{&body})
 		c.AbortWithStatus(http.StatusOK)
 	}
 }
