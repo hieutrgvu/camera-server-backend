@@ -7,4 +7,7 @@ const (
 
 	// GetEventsRoute ...
 	GetEventsRoute = "/events"
+
+	// GetImagesRoute ...
+	GetImagesRoute = "/images/:id"
 )

@@ -37,3 +37,17 @@ func getEvents(ctrl controller.IController) gin.HandlerFunc {
 		c.AbortWithStatusJSON(http.StatusOK, response)
 	}
 }
+
+// getEvents ...
+func getImages(ctrl controller.IController) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		vectorID := c.Param("id")
+		response, err := ctrl.GetImages(vectorID)
+		if err != nil {
+			log.Error("getEvents: err call controller = ", err)
+			return
+		}
+
+		c.AbortWithStatusJSON(http.StatusOK, response)
+	}
+}
