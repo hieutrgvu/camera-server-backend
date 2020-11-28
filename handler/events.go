@@ -21,6 +21,7 @@ func postEvents(ctrl controller.IController) gin.HandlerFunc {
 		}
 
 		if err := c.ShouldBind(&body); err != nil {
+			log.Error(err)
 			c.AbortWithError(http.StatusBadRequest, err)
 			return
 		}
@@ -35,6 +36,7 @@ func postEvents(ctrl controller.IController) gin.HandlerFunc {
 				VectorIDs:  strings.Join(body.VectorIDs, ","),
 			},
 		})
+
 		c.AbortWithStatus(http.StatusOK)
 	}
 }
