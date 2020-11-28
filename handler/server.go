@@ -2,7 +2,6 @@ package handler
 
 import (
 	"camera-server-backend/controller"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,6 +14,7 @@ func NewServer(ctrl controller.IController) *gin.Engine {
 
 	v1.POST(PostEventsRoute, postEvents(ctrl))
 	v1.GET(GetEventsRoute, getEvents(ctrl))
+	v1.GET(GetImagesRoute, getImages(ctrl))
 
 	return e
 }
