@@ -2,6 +2,7 @@ package controller
 
 import (
 	"bufio"
+	"camera-server-backend/helper"
 	"camera-server-backend/model"
 	"camera-server-backend/pkgs/store"
 	"encoding/base64"
@@ -50,16 +51,17 @@ func (c *Controller) GetImages(vectorIDs []string) ([]*model.ImageInfo, error) {
 		return nil, fmt.Errorf("Not found")
 	}
 
-	mapImageTemp := make(map[string]string)
-	mapImageTemp["0"] = "./file_image/943_7.jpg"
-	mapImageTemp["1"] = "./file_image/943_42.jpg"
-	mapImageTemp["2"] = "./file_image/943_1.jpg"
-	mapImageTemp["3"] = "./file_image/962_7.jpg"
-	mapImageTemp["4"] = "./file_image/962_1.jpg"
+	//mapImageTemp := make(map[string]string)
+	//mapImageTemp["0"] = "./file_image/943_7.jpg"
+	//mapImageTemp["1"] = "./file_image/943_42.jpg"
+	//mapImageTemp["2"] = "./file_image/943_1.jpg"
+	//mapImageTemp["3"] = "./file_image/962_7.jpg"
+	//mapImageTemp["4"] = "./file_image/962_1.jpg"
 	response := []*model.ImageInfo{}
+	log.Info("Controller.GetImages: len img = ", len(helper.MapImage))
 	for _, id := range vectorIDs {
-		if path, ok := mapImageTemp[id]; ok {
-			baseCode, err := getImageFromFilePath(path)
+		if pathInfo, ok := helper.MapImage[id]; ok {
+			baseCode, err := getImageFromFilePath(pathInfo.Path)
 			if err != nil {
 				log.Error("Controller.GetImages: err get image base 64 = ", err)
 			}
@@ -67,6 +69,7 @@ func (c *Controller) GetImages(vectorIDs []string) ([]*model.ImageInfo, error) {
 			response = append(response, &model.ImageInfo{
 				ImageId:     id,
 				ImageBase64: baseCode,
+				PersonId:    pathInfo.Label,
 			})
 		}
 	}
