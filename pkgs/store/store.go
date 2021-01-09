@@ -37,6 +37,6 @@ func (s *Store) InsertEvents(events []model.Event) error {
 
 // GetAllEvents ...
 func (s *Store) GetAllEvents() (events []model.Event, err error) {
-	s.db.Find(&events)
+	s.db.Order("id desc").Find(&events)
 	return events, nil
 }
